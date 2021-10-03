@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">crypto scalable solutions</string>
+    <string name="asset_list_load_error">An unexpected error occured</string>
 </resources>

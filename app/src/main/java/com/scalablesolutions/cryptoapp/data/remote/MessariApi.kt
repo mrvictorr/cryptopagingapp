@@ -1,0 +1,11 @@
+package com.scalablesolutions.cryptoapp.data.remote
+
+import com.scalablesolutions.cryptoapp.data.remote.dto.AssetsDto
+import retrofit2.http.GET
+import retrofit2.http.Query
+
+interface MessariApi {
+
+    @GET("api/v2/assets")
+    suspend fun getAssets(@Query("page") page: String, @Query("fields", encoded = true) fields: String): AssetsDto
+}
