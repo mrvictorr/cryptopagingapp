@@ -6,5 +6,5 @@ data class DataDto(
     val name: String,
     val profile: ProfileDto,
     val slug: String,
-    val symbol: String
+    val symbol: String?
 )
