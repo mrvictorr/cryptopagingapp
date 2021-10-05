@@ -2,7 +2,6 @@ package com.scalablesolutions.cryptoapp.domain.usecase
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.scalablesolutions.cryptoapp.common.Resource
 import com.scalablesolutions.cryptoapp.domain.model.AssetDomain
 import com.scalablesolutions.cryptoapp.domain.repository.AssetsRepository
 import retrofit2.HttpException
@@ -12,7 +11,6 @@ import javax.inject.Inject
 class GetAssetsUseCase @Inject constructor(
     private val repository: AssetsRepository
 ): PagingSource<Int, AssetDomain>() {
-
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, AssetDomain> {
         val nextPage = params.key ?: 1
         return try {
