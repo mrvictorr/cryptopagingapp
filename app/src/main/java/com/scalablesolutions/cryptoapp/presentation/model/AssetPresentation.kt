@@ -5,7 +5,7 @@ import com.scalablesolutions.cryptoapp.domain.model.AssetDomain
 data class AssetPresentation (
     val name: String,
     val symbol: String,
-    val priceUsd: Double,
+    var priceUsd: Double,
     val tagline: String?,
     val officialLinks: List<OfficialLinkPresentation>
 )
