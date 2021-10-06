@@ -1,6 +1,7 @@
 package com.scalablesolutions.cryptoapp.data.repository
 
 import com.scalablesolutions.cryptoapp.data.datasource.AssetsDataSource
+import com.scalablesolutions.cryptoapp.data.remote.dto.toAssetDomain
 import com.scalablesolutions.cryptoapp.data.remote.dto.toAssetsDomain
 import com.scalablesolutions.cryptoapp.domain.model.AssetDomain
 import com.scalablesolutions.cryptoapp.domain.repository.AssetsRepository
@@ -12,8 +13,12 @@ class AssetsRepositoryImpl @Inject constructor(
     private val dataSource: AssetsDataSource
 ): AssetsRepository {
 
-    override suspend fun getAssets(): List<AssetDomain> {
-        return dataSource.getAssets().toAssetsDomain()
+    override suspend fun getAssets(page: Int): List<AssetDomain> {
+        return dataSource.getAssets(page).toAssetsDomain()
+    }
+
+    override fun getAssetBySymbol(symbol: String): AssetDomain? {
+        return dataSource.getAssetBySymbol(symbol)?.toAssetDomain()
     }
 
     override suspend fun updatePriceOfAssets(): Flow<List<AssetDomain>> {

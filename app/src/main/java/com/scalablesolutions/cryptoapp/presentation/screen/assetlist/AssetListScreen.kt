@@ -9,6 +9,7 @@ import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -19,6 +20,7 @@ import androidx.navigation.NavController
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.scalablesolutions.cryptoapp.R
+import com.scalablesolutions.cryptoapp.presentation.screen.Screen
 import com.scalablesolutions.cryptoapp.presentation.viewmodel.AssetsListViewModel
 
 @Composable
@@ -30,14 +32,19 @@ fun AssetsListScreen(
     val lazyGameItems = viewModel.state.value.assets?.collectAsLazyPagingItems()
     val updatePriceState = viewModel.updatePriceState.value
 
+    DisposableEffect(key1 = viewModel) {
+        viewModel.onStart()
+        onDispose { viewModel.onStop() }
+    }
+
     Box(modifier = Modifier.fillMaxSize()) {
         LazyColumn(modifier = Modifier.fillMaxSize()) {
             items(lazyGameItems?.itemCount ?: 0) { index ->
                 lazyGameItems?.get(index)?.let {
                     AssetListItem(
                         asset = it,
-                        onItemClick = {
-
+                        onItemClick = { asset ->
+                            navController.navigate(Screen.AssetDetailScreen.route + "/${asset.symbol}")
                         }
                     )
                 }
