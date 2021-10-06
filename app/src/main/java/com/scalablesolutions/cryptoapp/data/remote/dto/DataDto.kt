@@ -15,6 +15,7 @@ fun DataDto.toAssetDomain(): AssetDomain {
         symbol = symbol ?: "",
         priceUsd = metrics.marketData.priceUsd,
         tagline = profile.general.overview.tagline,
+        projectDetails = profile.general.overview.projectDetails,
         officialLinks = profile.general.overview.officialLinks?.map { officialLinkDto ->
             officialLinkDto.toOfficialLinkDomain()
         } ?: emptyList()

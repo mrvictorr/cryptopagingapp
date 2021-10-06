@@ -32,7 +32,6 @@ fun AssetDetailScreen(
     viewModel: AssetDetailViewModel = hiltViewModel()
 ) {
     val state = viewModel.state.value
-
     val context = LocalContext.current
 
     DisposableEffect(key1 = viewModel) {
@@ -85,11 +84,21 @@ fun AssetDetailScreen(
                         )
                     }
                     Spacer(modifier = Modifier.height(15.dp))
-                    Text(
-                        text = asset.tagline ?: "",
-                        style = MaterialTheme.typography.body1
-                    )
-                    Spacer(modifier = Modifier.height(15.dp))
+                    if (asset.tagline != null) {
+                        Text(
+                            text = asset.tagline,
+                            style = MaterialTheme.typography.body1
+                        )
+                        Spacer(modifier = Modifier.height(15.dp))
+                    }
+
+                    if (asset.projectDetails != null) {
+                        Text(
+                            text = asset.projectDetails,
+                            style = MaterialTheme.typography.body1
+                        )
+                        Spacer(modifier = Modifier.height(15.dp))
+                    }
 
                     if (asset.officialLinks.isNotEmpty()) {
                         Text(
