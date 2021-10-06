@@ -11,11 +11,12 @@ import androidx.paging.map
 import com.scalablesolutions.cryptoapp.domain.model.AssetDomain
 import com.scalablesolutions.cryptoapp.domain.usecase.GetAssetsUseCase
 import com.scalablesolutions.cryptoapp.domain.usecase.UpdatePriceAssetsUseCase
-import com.scalablesolutions.cryptoapp.presentation.model.AssetPresentation
 import com.scalablesolutions.cryptoapp.presentation.model.AssetsState
+import com.scalablesolutions.cryptoapp.presentation.model.UpdatePriceState
 import com.scalablesolutions.cryptoapp.presentation.model.toAssetPresentation
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
@@ -33,6 +34,7 @@ class AssetsListViewModel @Inject constructor(
 
     private val _updatePriceState = mutableStateOf(UpdatePriceState())
     val updatePriceState: State<UpdatePriceState> = _updatePriceState
+    private lateinit var updateJob: Job
 
     init {
         _state.value = AssetsState(assets = getAssets().map { pagingData ->
@@ -40,15 +42,22 @@ class AssetsListViewModel @Inject constructor(
                 it.toAssetPresentation()
             }
         })
-        subscribeOnPriceUpdates()
+    }
+
+    fun onStart() {
+        updateJob = subscribeOnPriceUpdates()
+    }
+
+    fun onStop() {
+        updateJob.cancel()
     }
 
     private fun getAssets(): Flow<PagingData<AssetDomain>> {
         return Pager(PagingConfig(20)) { getAssetsUseCase }.flow
     }
 
-    private fun subscribeOnPriceUpdates() {
-        viewModelScope.launch(Dispatchers.IO) {
+    private fun subscribeOnPriceUpdates(): Job {
+        return viewModelScope.launch(Dispatchers.IO) {
             updatePriceAssetsUseCase().collect {
                 _updatePriceState.value =
                     UpdatePriceState(it.map { item -> item.toAssetPresentation() })
@@ -56,9 +65,5 @@ class AssetsListViewModel @Inject constructor(
         }
     }
 }
-
-data class UpdatePriceState(
-    val assets: List<AssetPresentation> = emptyList()
-)
 
 

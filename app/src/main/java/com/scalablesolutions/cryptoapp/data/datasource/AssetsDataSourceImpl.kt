@@ -17,14 +17,25 @@ class AssetsDataSourceImpl @Inject constructor(
     private var assetsList: Collection<DataDto> = mutableListOf()
 
 
-    override suspend fun getAssets(): Collection<DataDto> {
+    override suspend fun getAssets(page: Int): Collection<DataDto> {
         return if (assetsList.size % 20 == 0) {
-            val currentPage = assetsList.size / 20 + 1
-            val assetsDto = api.getAssets(currentPage.toString(), Constants.GET_ASSETS_FIELDS)
-            (assetsList as MutableList).addAll(assetsDto.data)
-            assetsDto.data
+            if (page * 20 > assetsList.size) {
+                val currentPage = assetsList.size / 20 + 1
+                val assetsDto = api.getAssets(currentPage.toString(), Constants.GET_ASSETS_FIELDS)
+                (assetsList as MutableList).addAll(assetsDto.data)
+                assetsDto.data
+            } else {
+                val list = (assetsList as MutableList).slice((page - 1) * 20 until page * 20)
+                list
+            }
         } else {
             emptyList()
+        }
+    }
+
+    override fun getAssetBySymbol(symbol: String): DataDto? {
+        return assetsList.firstOrNull {
+            it.symbol == symbol
         }
     }
 
@@ -58,10 +69,6 @@ class AssetsDataSourceImpl @Inject constructor(
                 delay(UPDATE_PRICE_TIME)
             }
         }
-    }
-
-    companion object {
-
     }
 
 }
