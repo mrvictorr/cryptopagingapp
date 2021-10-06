@@ -15,6 +15,7 @@ fun Collection<DataDto>.toAssetsDomain(): List<AssetDomain>{
             symbol = dataDto.symbol ?: "",
             priceUsd = dataDto.metrics.marketData.priceUsd,
             tagline = dataDto.profile.general.overview.tagline,
+            projectDetails = dataDto.profile.general.overview.projectDetails,
             officialLinks = dataDto.profile.general.overview.officialLinks?.map { officialLinkDto ->
                 officialLinkDto.toOfficialLinkDomain()
             } ?: emptyList()

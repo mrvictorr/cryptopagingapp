@@ -7,6 +7,7 @@ data class AssetPresentation (
     val symbol: String,
     var priceUsd: Double,
     val tagline: String?,
+    val projectDetails: String?,
     val officialLinks: List<OfficialLinkPresentation>
 )
 
@@ -16,6 +17,7 @@ fun AssetDomain.toAssetPresentation(): AssetPresentation{
         symbol = symbol,
         priceUsd = priceUsd,
         tagline = tagline,
+        projectDetails = projectDetails,
         officialLinks = officialLinks.map { officialLinkDomain ->
             officialLinkDomain.toOfficialLinkPresentation()
         }

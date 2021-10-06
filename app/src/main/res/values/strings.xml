@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">crypto scalable solutions</string>
-    <string name="asset_list_load_error">An unexpected error occured</string>
+    <string name="app_name">Crypto Display</string>
+    <string name="asset_list_load_error">An unexpected error occurred</string>
     <string name="official_links_title">Official links</string>
 </resources>

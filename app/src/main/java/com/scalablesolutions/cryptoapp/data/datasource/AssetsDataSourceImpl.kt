@@ -14,8 +14,8 @@ class AssetsDataSourceImpl @Inject constructor(
     private val api: MessariApi
 ): AssetsDataSource {
 
+    //cache
     private var assetsList: Collection<DataDto> = mutableListOf()
-
 
     override suspend fun getAssets(page: Int): Collection<DataDto> {
         return if (assetsList.size % 20 == 0) {

@@ -6,5 +6,6 @@ data class AssetDomain (
     val symbol: String,
     val priceUsd: Double,
     val tagline: String?,
+    val projectDetails: String?,
     val officialLinks: List<OfficialLinkDomain>
 )
