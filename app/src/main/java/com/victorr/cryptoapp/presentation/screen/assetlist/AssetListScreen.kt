@@ -25,12 +25,12 @@ fun AssetsListScreen(
     viewModel: AssetsListViewModel = hiltViewModel()
 ) {
 
-    val lazyGameItems = viewModel.state.value.assets?.collectAsLazyPagingItems()
+    val lazyPagingItems = viewModel.state.value.assets?.collectAsLazyPagingItems()
 
     Box(modifier = Modifier.fillMaxSize()) {
         LazyColumn(modifier = Modifier.fillMaxSize()) {
-            items(lazyGameItems?.itemCount ?: 0) { index ->
-                lazyGameItems?.get(index)?.let {
+            items(lazyPagingItems?.itemCount ?: 0) { index ->
+                lazyPagingItems?.get(index)?.let {
                     AssetListItem(
                         asset = it
                     )
@@ -38,7 +38,7 @@ fun AssetsListScreen(
             }
         }
 
-        if (lazyGameItems?.loadState?.refresh is LoadState.Error || lazyGameItems?.loadState?.refresh is LoadState.Error) {
+        if (lazyPagingItems?.loadState?.refresh is LoadState.Error || lazyPagingItems?.loadState?.refresh is LoadState.Error) {
             Text(
                 text = stringResource(R.string.asset_list_load_error),
                 color = MaterialTheme.colors.error,
@@ -49,7 +49,7 @@ fun AssetsListScreen(
                     .align(Alignment.Center)
             )
         }
-        if(lazyGameItems?.loadState?.refresh is LoadState.Loading || lazyGameItems?.loadState?.refresh is LoadState.Loading) {
+        if (lazyPagingItems?.loadState?.refresh is LoadState.Loading || lazyPagingItems?.loadState?.refresh is LoadState.Loading) {
             CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
         }
     }
